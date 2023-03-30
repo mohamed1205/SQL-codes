@@ -10,3 +10,19 @@ JOIN Manager m ON c.company_code = m.company_code
 JOIN Employee e ON c.company_code = e.company_code
 GROUP BY c.company_code, c.founder
 ORDER BY c.company_code
+
+
+
+
+
+
+-----
+
+
+with cte as (select stock_name ,SUM(case when operation='Buy' then price end) AS buy_item ,
+SUM(case when operation='Sell' then price end) AS sell_item 
+from Stocks 
+group by stock_name)
+select stock_name,(sell_item-buy_item) as capital_gain_loss 
+from cte
+group by stock_name
